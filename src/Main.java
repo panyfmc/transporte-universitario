@@ -2,7 +2,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Main {
-    private static final LocalDate DATA = LocalDate.of(2026, 10, 12); // uma segunda-feira
+    private static final LocalDate DATA = LocalDate.of(2026, 10, 12); // dia da viagem (segunda)
 
     public static void main(String[] args) {
         System.out.println("##### PARTE 1 - TESTES DAS REGRAS (situações inválidas) #####\n");
@@ -212,13 +212,12 @@ public class Main {
     // =====================================================================
 
     private static void simularDiaCompleto() {
-        AssociacaoTransporte associacao =
-                new AssociacaoTransporte("Associação de Transporte Universitário de Tobias Barreto");
+        AssociacaoTransporte associacao = new AssociacaoTransporte("Associação de Transporte Universitário de Tobias Barreto (AEUTB)");
 
-        // distâncias aproximadas (ajustar se o professor passar outras)
-        Rota lagarto = new Rota("Lagarto", 60, 600);
-        Rota paripiranga = new Rota("Paripiranga", 45, 700);
-        Rota aracaju = new Rota("Aracaju", 120, 900);
+        // distâncias fictícias para cada destino cadastrado
+        Rota lagarto = new Rota("Lagarto", 55, 600);
+        Rota paripiranga = new Rota("Paripiranga", 88, 700);
+        Rota aracaju = new Rota("Aracaju", 130, 900);
         associacao.cadastrarRota(lagarto);
         associacao.cadastrarRota(paripiranga);
         associacao.cadastrarRota(aracaju);
@@ -228,10 +227,9 @@ public class Main {
             associacao.cadastrarVeiculo(new Veiculo("VAN-000" + i, 10 + i, TipoVeiculo.VAN));
         }
 
-        String[] nomes = {"Carlos", "Marcos", "Paulo", "Renato", "Jorge", "Sérgio"};
+        String[] nomes = {"Carlos", "Marcos", "Paulo", "Danilo", "Jorge", "Sérgio"};
         for (int i = 0; i < nomes.length; i++) {
-            associacao.cadastrarMotorista(new Motorista("000.000.000-0" + i, nomes[i],
-                    "CNH10" + i, "(79) 99999-000" + i));
+            associacao.cadastrarMotorista(new Motorista("000.000.000-0" + i, nomes[i], "CNH10" + i, "(79) 99999-000" + i));
         }
 
         // Lagarto: ida de manhã, volta à tarde
@@ -248,7 +246,7 @@ public class Main {
         cadastrarGrupo(associacao, "ARA", 45, aracaju, Turno.TARDE, Turno.NOITE,
                 new String[]{"UNIT", "Pio X", "UFS São Cristóvão"}, 0);
         cadastrarGrupo(associacao, "ARAX", 2, aracaju, Turno.TARDE, Turno.NOITE,
-                new String[]{"UNIT"}, 4); // inadimplentes
+                new String[]{"UNIT"}, 4); // inadimplente
 
         System.out.println("Estudantes cadastrados: " + associacao.contarEstudantes()
                 + " | Inadimplentes: " + associacao.contarInadimplentes() + "\n");
@@ -298,8 +296,7 @@ public class Main {
     // Métodos auxiliares
     // =====================================================================
 
-    private static void cadastrarGrupo(AssociacaoTransporte associacao, String prefixo, int quantidade,
-                                       Rota rota, Turno ida, Turno volta, String[] instituicoes, int atrasos) {
+    private static void cadastrarGrupo(AssociacaoTransporte associacao, String prefixo, int quantidade, Rota rota, Turno ida, Turno volta, String[] instituicoes, int atrasos) {
         for (int i = 1; i <= quantidade; i++) {
             Estudante estudante = new Estudante(prefixo + String.format("%02d", i),
                     "Aluno " + rota + " " + prefixo + i,

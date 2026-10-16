@@ -4,13 +4,13 @@
  */
 public final class Validador {
 
-    // construtor privado: a classe só tem métodos estáticos, ninguém precisa instanciá-la
+    // construtor privado: a classe só tem métodos estáticos (funcao vinculada à uma classe), ninguém precisa instanciá-la
     private Validador() {
     }
 
     /** Garante que o texto não é nulo nem vazio e devolve ele sem espaços nas pontas. */
     public static String exigirTexto(String valor, String campo) {
-        if (valor == null || valor.isBlank()) {
+        if (valor == null || valor.trim().isEmpty()) {
             throw new IllegalArgumentException("O campo '" + campo + "' é obrigatório.");
         }
         return valor.trim();

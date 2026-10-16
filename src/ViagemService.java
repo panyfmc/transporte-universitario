@@ -4,10 +4,7 @@ import java.util.ArrayList;
 /**
  * Guarda as viagens confirmadas e aplica as regras que dependem de VÁRIAS viagens
  * (ex.: o motorista já está em outra viagem nesse horário?).
- *
- * Os métodos "motivo..." devolvem uma mensagem explicando o problema, ou null
- * quando está tudo certo. Assim o mesmo código serve para validar (confirmar)
- * e para perguntar "está disponível?" (alocação automática) sem usar try/catch.
+
  */
 public class ViagemService {
     private final ArrayList<Viagem> viagens = new ArrayList<>(); // só viagens confirmadas
@@ -21,18 +18,15 @@ public class ViagemService {
 
         // cada verificação só roda se a anterior passou (motivo == null)
         String motivo = motivoVeiculoIndisponivel(viagem.getVeiculo(), viagem.getData(), viagem.getTurno());
+        
         if (motivo == null) {
             motivo = motivoMotoristaIndisponivel(viagem.getMotorista(), viagem.getData(), viagem.getTurno());
-        }
-        if (motivo == null) {
             motivo = motivoEstudanteInvalido(viagem);
         }
-        if (motivo == null && viagem.getQuantidadeEstudantes() > viagem.getVeiculo().getCapacidade()) {
-            motivo = "A capacidade do veículo foi excedida.";
-        }
-        if (motivo != null) {
-            throw new RegraNegocioException(motivo);
-        }
+        
+        if (motivo == null && viagem.getQuantidadeEstudantes() > viagem.getVeiculo().getCapacidade()) motivo = "A capacidade do veículo foi excedida.";
+        
+        if(motivo != null) throw new RegraNegocioException(motivo);
 
         viagem.marcarComoConfirmada();
         viagens.add(viagem);
